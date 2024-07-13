@@ -21,3 +21,4 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   req.send();
 });
+module.exports = router;

@@ -11,11 +11,11 @@ app.use(
   })
 );
 // initialiser les routers
-const route = require("./routers/admin");
+const router = require("./routers/admin");
 const classeRoute = require("./routers/classes");
 const studentRoute = require("./routers/Students");
 // connecter les routes
-app.use("/admin", route);
+app.use("/admin", router);
 app.use("/classes", classeRoute);
 app.use("/Students", studentRoute);
 
