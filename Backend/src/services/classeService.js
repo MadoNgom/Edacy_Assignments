@@ -6,15 +6,15 @@ exports.getAllClasses = () => {
 exports.getClasseById = (id) => {
   classes = classes.find((classe) => classe.id == id);
 };
-exports.create = (item) => {
+exports.createClasse = (item) => {
   // create tne item
-  const newclasse = { ...item, id: new Date.now().toString() };
+  const newclasse = { ...item, id: Date.now().toString() };
   //   push it the table
   classes.push(newclasse);
   return newclasse;
 };
 // to delete
-exports.delete = (id) => {
+exports.deleteClasse = (id) => {
   classes.filter((item) => item.id !== id);
 };
 exports.updateClasse = (item, id) => {

@@ -1,24 +1,10 @@
 const express = require("express");
 const classeroute = express.Router();
+const classeController = require("../controllers/classesController");
 
-// TO GET ALL CLASSES
-classeroute.get("/", (req, res) => {
-  res.send("classes ");
-});
-// TO GET A SINGLE ITEME
-classeroute.get("/:id", (req, res) => {
-  res.send("classes ");
-});
-// TO add CLASSES
-classeroute.post("/", (req, res) => {
-  res.send("classes ");
-});
-// TO modify CLASSES
-classeroute.put("/:id", (req, res) => {
-  res.send("classes ");
-});
-// TO delete CLASSES
-classeroute.delete("/:id", (req, res) => {
-  res.send("classes ");
-});
+classeroute.get("/", classeController.getAllClasses);
+classeroute.post("/", classeController.createClasse);
+classeroute.get("/:id", classeController.getClasseById);
+classeroute.delete("/:id", classeController.deleteClasse);
+classeroute.put("/:id", classeController.updateClasse);
 module.exports = classeroute;
