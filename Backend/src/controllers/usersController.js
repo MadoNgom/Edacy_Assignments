@@ -13,7 +13,7 @@ exports.getById = (req, res) => {
 exports.create = (req, res) => {
   const item = req.body;
   // si l'utilisateur n'existe pas déjà on créé son compte
-  if (userService.notExist) {
+  if (userService.notExist(item.email)) {
     const data = userService.create(item);
     res.status(201).json(data);
   } else {
