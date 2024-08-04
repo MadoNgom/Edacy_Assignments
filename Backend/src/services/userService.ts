@@ -10,10 +10,8 @@ export class userService {
     return users;
   }
 
-  async getById(id: string): Promise<user[]> {
-    const user: user[] = await this.db.query(
-      `SELECT * FROM users WHERE id=${id}`
-    );
+  async getById(id: string): Promise<user | null> {
+    const user: any = await this.db.query(`SELECT * FROM users WHERE id=${id}`);
     return user;
   }
   // controller si l'utilisateur exits déjà
@@ -25,7 +23,7 @@ export class userService {
   }
 
   async create(newUser: user): Promise<user> {
-    const result = this.db.query(
+    const result: any = await this.db.query(
       `INSERT INTO users (firstname,lastname,email,password) VALUES(?,?,?,?)`,
       [newUser.firstname, newUser.lastname, newUser.email, newUser.password]
     );
