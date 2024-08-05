@@ -26,9 +26,9 @@ export class database {
       createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
       `,
-      (err) => {
-        if (err) {
-          console.log("table not created", err);
+      (error) => {
+        if (error) {
+          console.log("table not created", error);
         } else {
           console.log("table created successfully");
         }

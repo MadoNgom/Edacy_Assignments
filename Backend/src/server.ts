@@ -1,8 +1,9 @@
-import router from "./routers/usersRoute";
+import { userRoute } from "./routers/usersRoute";
 import studentRoute from "./routers/StudentsRoute";
 import classeroute from "./routers/classesRoute";
 import express from "express";
 import bodyParser from "body-parser";
+
 const app = express();
 
 require("dotenv").config();
@@ -14,9 +15,10 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+const userRoutes = new userRoute();
 
 // connecter les routes
-app.use("/users", router);
+app.use("/users", userRoutes.router);
 app.use("/classes", classeroute);
 app.use("/students", studentRoute);
 

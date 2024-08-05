@@ -11,8 +11,13 @@ export class userService {
   }
 
   async getById(id: string): Promise<user | null> {
-    const user: any = await this.db.query(`SELECT * FROM users WHERE id=${id}`);
-    return user;
+    const user: user[] = await this.db.query(
+      `SELECT * FROM users WHERE id=${id}`
+    );
+    if (user.length > 0) {
+      return user[0];
+    }
+    return null;
   }
   // controller si l'utilisateur exits déjà
   async notExist(email: string): Promise<boolean> {
@@ -24,15 +29,13 @@ export class userService {
 
   async create(newUser: user): Promise<user> {
     const result: any = await this.db.query(
-      `INSERT INTO users (firstname,lastname,email,password) VALUES(?,?,?,?)`,
+      `INSERT INTO users (firstname,lastname,email,password) VALUES (?,?,?,?) `,
       [newUser.firstname, newUser.lastname, newUser.email, newUser.password]
     );
-    newUser.id = result.lastId;
-
     return newUser;
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: string): Promise<boolean> {
     const result: any = await this.db.query("DELETE FROM users WHERE id=?", [
       id,
     ]);
@@ -40,8 +43,8 @@ export class userService {
   }
   async update(user: user): Promise<any> {
     const result = await this.db.query(
-      "UPDATE FROM users WHERE id=? SET firstname=?, lastname=?",
-      [user.id, user.firstname, user.lastname]
+      "UPDATE users  SET firstname=?, lastname=?  WHERE id=?",
+      [user.firstname, user.lastname, user.id]
     );
     return result;
   }

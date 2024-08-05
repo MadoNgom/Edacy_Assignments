@@ -1,40 +1,76 @@
+import { user } from "../models/user";
 import { userService } from "../services/userService";
 import { Request, Response } from "express";
-export const usersController = {
-  getAll(req: Request, res: Response) {
-    const data = userService.getAll();
-    res.json(data);
-  },
-  getById(req: Request, res: Response) {
-    const id = req.params.id;
-    const data = userService.getById(id);
-    res.json(data);
-  },
-
-  create(req: Request, res: Response) {
-    const item = req.body;
-    // verifier le user existe avec le meme email
-    if (userService.notExist(item.email)) {
-      const data = userService.create(item);
-      res.status(201).json(data);
-    } else {
-      // sinon on affiche un message d'erreur
-      res
-        .status(400)
-        .json({ message: "utilisateur existe déjà avec un meme email" });
+export class usersController {
+  private userService: userService;
+  constructor() {
+    this.userService = new userService();
+  }
+  async getAll(req: Request, res: Response) {
+    try {
+      const data = await this.userService.getAll();
+      res.json(data);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
     }
-  },
+  }
+  async getById(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+      const data = await this.userService.getById(id);
+      if (data) {
+        res.json(data);
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 
-  update(req: Request, res: Response) {
-    const id = req.params.id;
-    const user = req.body;
-    const data = userService.update(id, user);
-    res.status(200).json(data);
-  },
+  async create(req: Request, res: Response) {
+    const { firstname, lastname, email, password } = req.body;
+    if (
+      firstname === undefined ||
+      lastname == undefined ||
+      email === undefined ||
+      password == undefined
+    ) {
+      res.status(400).json({ message: "body not match contract" });
+    } else {
+      try {
+        const UsernotExist = await this.userService.notExist(email);
+        if (UsernotExist) {
+          const user: user = { firstname, lastname, email, password };
+          const data = await this.userService.create(user);
+          res.status(200).json(data);
+        } else {
+          res.status(400).json({ message: "user already exits" });
+        }
+      } catch (error: any) {
+        // sinon on affiche un message d'erreur
+        res.status(400).json({ message: error.message });
+      }
+    }
+  }
 
-  delete(req: Request, res: Response) {
-    const id = req.params.id;
-    userService.delete(id);
-    res.sendStatus(204);
-  },
-};
+  async update(req: Request, res: Response) {
+    try {
+      const user: user = req.body;
+      user.id = req.params.id as string;
+      const data = await this.userService.update(user);
+      res.status(200).json(data);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+      const result = this.userService.delete(id);
+    } catch (error: any) {
+      res.sendStatus(204).json({ message: error.message });
+    }
+  }
+}
