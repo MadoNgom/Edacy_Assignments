@@ -8,8 +8,8 @@ export class database {
       if (err) {
         console.log("an error occurs to the database", err);
       } else {
-        console.log("database created successfully");
         this.createTable();
+        console.log("table created successfully");
       }
     });
   }

@@ -32,15 +32,24 @@ export class userService {
     return newUser;
   }
 
-  // delete(id: any) {
-  //   data.filter((x: any) => x.id !== id);
-  // },
-  // update(x: any, id: any) {
-  //   const index = data.findIndex((obj: any) => obj.id == id);
-  //   const userUpdated = { ...x, id: id };
-  //   if (index !== -1) {
-  //     data[index] = userUpdated;
-  //   }
-  //   return userUpdated;
-  // },
+  async delete(id: number): Promise<boolean> {
+    const result: any = await this.db.query("DELETE FROM users WHERE id=?", [
+      id,
+    ]);
+    return result;
+  }
+  async update(user: user): Promise<any> {
+    const result = await this.db.query(
+      "UPDATE FROM users WHERE id=? SET firstname=?, lastname=?",
+      [user.id, user.firstname, user.lastname]
+    );
+    return result;
+  }
+  // async resetPassword(user: user, newPassword): Promise<any> {
+  //   const result = this.db.query(
+  //     "UPDATE FROM users WHERE id=? SET email=? , password=?",
+  //     [user.id, user.email, user.password]
+  //   );
+  //   return result;
+  // }
 }
