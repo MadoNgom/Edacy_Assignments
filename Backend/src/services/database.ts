@@ -1,4 +1,5 @@
 import sqlite3 from "sqlite3";
+import { user } from "../models/user";
 // const sqlite3 = require("sqlite3").verbose();
 export class database {
   db: sqlite3.Database;
@@ -36,7 +37,7 @@ export class database {
     );
   }
   // execute query request
-  public query(sql: string, params: any[] = []): Promise<any[]> {
+  public query(sql: string, params: user[] = []): Promise<user[]> {
     return new Promise((resolve, reject) => {
       this.db.all(sql, params, (err, rows) => {
         if (err) {

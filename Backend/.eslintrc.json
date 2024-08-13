@@ -5,11 +5,22 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "rules": {
     "no-unused-vars": "error",
     "no-undef": "error",
-    "prettier/prettier": "error"
-  }
+    "prettier/prettier": "error",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "variable",
+        "format": ["CamelCase"]
+        // "format": ["PascalCase"],
+        // "format": ["UPPER_CASE"]
+      }
+    ]
+  },
+  "ignorePatterns": ["node_modules"]
 }
